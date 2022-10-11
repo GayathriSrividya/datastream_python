@@ -1,0 +1,15 @@
+{
+    "count":
+    {
+        "assertion when checking total input count": [930000]
+    },
+    "metrics":
+    {
+        "assertion when giving valid query": ["self.telemetry.filter((self.telemetry.eid=='SEARCH') & (self.telemetry.edata.filters.dialcodes != 'null')).count()", 356], 
+        "assertion when giving invalid query": ["print count", -1]
+    },
+    "push":
+    {
+        "assertion when pushing events to kafka": ["{'timestamp': datetime.now().timestamp(), 'input_count': 930000, 'time_taken': time_taken, 'metrics':[ {'name':'scans', 'value': scans}, {'name':'downloads', 'value': downloads}]}", "test_kafka_topic",  null]
+    }
+}
