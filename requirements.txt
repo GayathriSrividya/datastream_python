@@ -1,0 +1,7 @@
+pyspark==3.3.0
+kafka-python==2.0.2
+py4j==0.10.9.5
+apache-flink==1.15.0
+pyflink==1.0
+unittest2==1.1.0
+coverage==6.4.4
