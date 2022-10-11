@@ -1,0 +1,9 @@
+{
+
+    "scans": "self.telemetry.filter((self.telemetry.eid=='SEARCH') & (self.telemetry.edata.filters.dialcodes != 'null')).count()",
+    "downloads": "self.telemetry.filter((self.telemetry.context.pdata.id=='prod.diksha.app') & (self.telemetry.edata.subtype=='ContentDownload-Success') & (self.telemetry.eid == 'INTERACT')).count()",
+    "plays":"self.telemetry.filter((self.telemetry.eid=='START')&(self.telemetry.context.pdata.pid=='sunbird.app.contentplayer')).count()",
+    "time_spent ":"self.telemetry.filter((self.telemetry.eid=='END')&(self.telemetry.context.pdata.pid=='sunbird.app.contentplayer')).select('edata.duration').agg({'duration':'sum'}).collect()[0][0]",
+    "progress":"self.telemetry.withColumn('progress', explode(self.telemetry.edata.summary.progress)).select('progress').agg({'progress':'sum'}).collect()[0][0]"
+
+}
