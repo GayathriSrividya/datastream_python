@@ -36,4 +36,5 @@ metrics=json.dumps(filters, indent=len(filters))
 
 # pushing events into kafka
 # Make sure that the Kafka cluster is started
+
 instance.push(metrics, 'sb-telemetry')
