@@ -3,3 +3,4 @@ htmlcov
 .coverage
 __pycache__
 examples
+__init__.py
