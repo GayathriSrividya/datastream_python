@@ -1,0 +1,5 @@
+flinkenv
+htmlcov
+.coverage
+__pycache__
+examples
