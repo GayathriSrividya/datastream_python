@@ -17,10 +17,10 @@ def transform_ds(datastream):
     data=json.loads(datastream)
     metrics_name=[]
     measure=[]
-    params={'timestamp':'{}'.format(data["timestamp"]), 'input_count':'{}'.format(data['input_count']), 'time_taken':'{}'.format(data['time_taken'])}
+    params={'timestamp': float(data['timestamp']), 'input_count':data['input_count'], 'time_taken':data['time_taken']}
     for i in range(len(data['metrics'])):
-        metrics_name.append(data["metrics"][i]['name'])
-        measure.append(data['metrics'][i]['value'])
+        metrics_name.append(data['metrics'][i]['name'])
+        measure.append(float(data['metrics'][i]['value']))
     metric_data={metrics_name[i]: measure[i] for i in range(len(metrics_name))}
     params.update(metric_data)
     return params
@@ -35,7 +35,7 @@ def datastream_kafka(env):
     consumer = FlinkKafkaConsumer(
         topics='sb-telemetry',
         deserialization_schema=deserialization_schema,
-        properties={'bootstrap.servers': 'localhost:9092', 'group.id': 'my-group', 'consumer.timeout':'10'}
+        properties={'bootstrap.servers': 'localhost:9092', 'group.id': 'my-group'}
     )
     consumer.set_start_from_earliest()
 
@@ -48,7 +48,7 @@ def datastream_kafka(env):
     serialization_schema = SimpleStringSchema()
     # Flink kafka sink to push the transformed datastream back to kafka
     producer = FlinkKafkaProducer(
-        topic='sb-metrics',
+        topic='sunbird-metrics',
         serialization_schema=serialization_schema,
         producer_config={'bootstrap.servers': 'localhost:9092'})
     print("writing to kafka")
