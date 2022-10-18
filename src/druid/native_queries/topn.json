@@ -1,0 +1,19 @@
+{
+    "queryType": "topN",
+    "dataSource": "sb-metrics",
+    "dimension": "scans",
+    "threshold": 10,
+    "metric": "count",
+    "granularity": "all",
+    "intervals": [
+      "2022-10-17/2022-10-19"
+    ],
+  "aggregations": [
+    {
+      "type": "longSum",
+      "name": "count",
+      "fieldName": "scans"
+    }
+    ]
+
+  }
