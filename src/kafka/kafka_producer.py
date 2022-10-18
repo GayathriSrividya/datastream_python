@@ -28,11 +28,12 @@ time_taken=(datetime.now()-start_time).seconds/1000
 # creating a json file
 
 for index in range (len(keys)):
-    summary_list.append({"name":'{}'.format(keys[index]), "value":'{}'.format(results[index])})
+    summary_list.append({"name":keys[index], "value":results[index]})
 
 filters= {"timestamp": (datetime.now().timestamp())*1000, "input_count": inputs, "time_taken": time_taken, "metrics": summary_list}
 
 metrics=json.dumps(filters, indent=len(filters))
+print(metrics)
 
 # pushing events into kafka
 # Make sure that the Kafka cluster is started
