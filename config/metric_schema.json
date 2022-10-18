@@ -1,0 +1,17 @@
+{
+    "type":"object",
+    "properties": {
+        "timestamp": {"type":"number"},
+        "input_count":{"type":"number"},
+        "time_taken":{"type":"number"},
+        "metrics":{"type":"array",
+                    "items":{"type":"object",
+                             "required":["name", "value"],
+                             "properties":{
+                                "name":{"type":"string"},
+                                "value":{"type":"number"}
+                             }
+                                 }
+                  }
+                  }
+}
