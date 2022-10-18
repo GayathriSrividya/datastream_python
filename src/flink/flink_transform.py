@@ -3,9 +3,20 @@ import logging
 import sys
 import os
 import json
+import jsonschema
+from jsonschema import validate
 from pyflink.common import  Types, SimpleStringSchema 
 from pyflink.datastream import StreamExecutionEnvironment
 from pyflink.datastream.connectors import FlinkKafkaConsumer, FlinkKafkaProducer
+
+# schema validation 
+def validate_ds(jsonData):
+    validationschema = json.load(open('../../config/metric_schema.json'))
+    try:
+        validate(instance=jsonData, schema=validationschema)
+    except jsonschema.exceptions.ValidationError as err:
+        return err
+    return True
 
 # converting datastream into json
 def update_ds(datastream):
@@ -15,15 +26,18 @@ def update_ds(datastream):
 # apply translations on datastream
 def transform_ds(datastream):
     data=json.loads(datastream)
-    metrics_name=[]
-    measure=[]
-    params={'timestamp': float(data['timestamp']), 'input_count':data['input_count'], 'time_taken':data['time_taken']}
-    for i in range(len(data['metrics'])):
-        metrics_name.append(data['metrics'][i]['name'])
-        measure.append(float(data['metrics'][i]['value']))
-    metric_data={metrics_name[i]: measure[i] for i in range(len(metrics_name))}
-    params.update(metric_data)
-    return params
+    valid=validate_ds(data)
+    if (valid==True):
+        params={'timestamp': data['timestamp'], 'input_count':data['input_count'], 'time_taken':data['time_taken']}
+        metric_data = {}
+        for item in data['metrics']:
+            metric_data[item['name']] = item['value']
+        params.update(metric_data)
+        return params
+    else:
+        print(valid)
+        sys.exit()
+        
 
 # flink kafka source and sink
 def datastream_kafka(env):
@@ -41,14 +55,14 @@ def datastream_kafka(env):
 
     # generating datastream 
     kafka_data = env.add_source(consumer)
-
+    
     # applying transformations on datastream
     kafka_data=kafka_data.map(transform_ds)
 
     serialization_schema = SimpleStringSchema()
     # Flink kafka sink to push the transformed datastream back to kafka
     producer = FlinkKafkaProducer(
-        topic='sunbird-metrics',
+        topic='sb-metrics',
         serialization_schema=serialization_schema,
         producer_config={'bootstrap.servers': 'localhost:9092'})
     print("writing to kafka")
