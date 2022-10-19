@@ -1,18 +1,18 @@
 # datastream_python
 
-This repository is for data streaming and processing using pyspark and kafka
+This repository is for data streaming and processing using pyspark, kafka, flink and druid.
 
 config:
 ------
-contains a json file with some queries to be performed on data
+contains a json file with some queries to be performed on data.
 
 data:
 -----
-The data folder contains compressed json file which has sunbird telemetry data
+The data folder contains compressed json file which has sunbird telemetry data.
 
 src->kafka:
 -----------
-this folder has python scripts to create spark session, reading json file and pushing events into kafka
+this folder has python scripts to create spark session, reading json file and pushing events into kafka.
 
 kafka_producer.py:
     - creating instance for the python class Telemetry 
@@ -26,15 +26,19 @@ src->flink
 this folder has python script and dependencies to execute a flink job.
 
 flink_transform.py
-    -  python script to read events from kafka, apply some transformations on the datastream and push the events into kafka again
+    -  python script to read events from kafka, apply some transformations on the datastream and push the events into kafka again.
+
+src->druid
+----------
+this folder contains ingestion spec and native queries.
 
 tests:
 ------
-this folder contains unittest files to check functionality of python codes existing in src folder, and also contains json files containing test cases.
+this folder contains unittest files to check functionality of python codes existing in src folder, and also contains json files with test scenarios.
 
 tests->config:
 -------------
-this folder consists of json files which have parameters for the test cases
+this folder consists of json files which have different scenarios for the test cases
 
 setting up github repository:
 ----------------------------
