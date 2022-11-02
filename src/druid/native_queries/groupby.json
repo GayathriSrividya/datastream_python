@@ -1,0 +1,7 @@
+{
+    "queryType": "groupBy",
+    "dataSource": "sb-metrics",
+    "granularity": "all",
+    "dimensions": ["downloads", "scans"],
+    "intervals": [ "2022-10-17/2022-10-19" ]
+  }

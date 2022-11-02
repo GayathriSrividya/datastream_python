@@ -1,0 +1,71 @@
+{
+    "type": "kafka",
+    "spec": {
+      "ioConfig": {
+        "consumerProperties": {
+          "bootstrap.servers": "kafka:19092"
+        },
+        "topic": "sb-metrics",
+        "inputFormat": {
+            "type": "json"
+        },
+      "taskCount": 1,
+      "replicas": 1,
+      "useEarliestOffset": true,
+      "taskDuration": "PT1H"
+      },
+      "tuningConfig": {
+      "type": "kafka",
+      "reportParseExceptions": false,
+      "maxRowsPerSegment": "2000000",
+      "resetOffsetAutomatically": true
+      },
+      "dataSchema": {
+        "dataSource": "sb-metrics",
+        "timestampSpec": {
+          "column": "timestamp",
+          "format": "auto"
+        },
+        "transformSpec": {},
+        "dimensionsSpec": {
+          "dimensions": [
+            {
+              "type": "long",
+              "name": "input_count"
+            },
+            {
+              "type": "double",
+              "name": "time_taken"
+            },
+            {
+              "type":"double",
+              "name":"scans"
+            },
+            {
+              "type":"double",
+              "name":"downloads"
+            },
+            {
+              "type":"double",
+              "name":"plays"
+            },
+            {
+              "type":"double",
+              "name":"durationspent"
+            },
+            {
+              "type":"double",
+              "name":"progress"
+            }
+          ],
+          
+          "dimensionsExclusions": []
+        },
+        "granularitySpec": {
+        "type": "uniform",
+        "segmentGranularity": "day",
+        "rollup": false 
+        }
+      }
+    }
+  }

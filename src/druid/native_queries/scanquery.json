@@ -1,0 +1,26 @@
+{
+  "queryType": "scan",
+  "dataSource": "sb-metrics",
+  "granularity":"all",
+  "intervals": {
+    "type": "intervals",
+    "intervals": [
+      "2022-10-17/2022-10-19"
+    ]
+  },
+  "resultFormat":"compactedList",
+  "columns":[
+    "__time",
+    "scans" 
+  ],
+  "metrics":{
+    "type":"numeric",
+    "metric":"count"
+  },
+  "aggregations":[
+    {
+       "type":"count",
+       "name":"count"
+    }
+ ] 
+}
